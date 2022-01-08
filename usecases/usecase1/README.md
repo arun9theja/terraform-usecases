@@ -12,7 +12,7 @@
     1. Download Terraform
     2. Unzip the terraform package
     3. Configure environment variables for terraform
-    4. Verify installation with terraform version or terraform -help commands
+    4. Verify installation with terraform version or terraform -help command
 
 # Mac OS
     $ brew tap hashicorp/tap    
