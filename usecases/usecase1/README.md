@@ -1,6 +1,6 @@
 # Terraform AWS Web Deployment Automation
 
-# Before starting this excercise, make sure Terraform is installed in your machine.
+# Before starting this exercise, make sure Terraform is installed in your machine.
 
 # Ubuntu
 
