@@ -8,6 +8,10 @@ variable "azs" {
   type        = list(string)
 }
 
+variable "access_ip" {
+  type = string
+}
+
 
 
 

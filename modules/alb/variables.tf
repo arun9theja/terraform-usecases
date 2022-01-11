@@ -1,6 +1,5 @@
 variable "ec2_count" {
   type    = number
-  default = 2
 }
 
 variable "vpc_id" {
@@ -22,3 +21,14 @@ variable "instance_id" {
 variable "ec2_sg_id" {
   type = string
 }
+
+variable "access_ip" {
+  type = string
+}
+
+variable "tg_port" {}
+variable "tg_protocol" {}
+variable "lb_healthy_threshold" {}
+variable "lb_unhealthy_threshold" {}
+variable "timeout" {}
+variable "interval" {}

@@ -4,6 +4,7 @@ resource "aws_lb" "test" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb-sg.id]
   subnets            = var.public_subnet_id
+  idle_timeout       = 400
   tags = {
     Environment = "tqa"
   }
@@ -30,9 +31,15 @@ resource "aws_lb_target_group_attachment" "test-tga" {
 
 resource "aws_lb_target_group" "test-tg" {
   name     = "tf-test-lb-tg"
-  port     = 80
-  protocol = "HTTP"
+  port     = var.tg_port
+  protocol = var.tg_protocol
   vpc_id   = var.vpc_id
+  health_check {
+    healthy_threshold = var.lb_healthy_threshold
+    unhealthy_threshold = var.lb_unhealthy_threshold
+    timeout = var.timeout
+    interval = var.interval
+  }
 }
 
 resource "aws_security_group" "alb-sg" {
@@ -44,7 +51,7 @@ resource "aws_security_group" "alb-sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.access_ip]
   }
 
 }
