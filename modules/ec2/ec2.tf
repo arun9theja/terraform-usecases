@@ -1,11 +1,11 @@
 resource "aws_instance" "myec2" {
-  count                  = 2
-  ami                    = data.aws_ami.amazon_linux.id
-  instance_type          = var.instance_type
+  count                       = 2
+  ami                         = data.aws_ami.amazon_linux.id
+  instance_type               = var.instance_type
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.ec2-sg.id]
-  key_name               = "terraform"
-  subnet_id              = var.public_subnet_id[count.index]
+  vpc_security_group_ids      = [aws_security_group.ec2-sg.id]
+  key_name                    = "terraform"
+  subnet_id                   = var.public_subnet_id[count.index]
 
   tags = {
     Name        = "server-${count.index}"

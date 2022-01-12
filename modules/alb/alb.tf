@@ -13,8 +13,8 @@ resource "aws_lb" "test" {
 
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.test.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = var.listener_port
+  protocol          = var.listener_protocol
 
   default_action {
     type             = "forward"
@@ -35,10 +35,10 @@ resource "aws_lb_target_group" "test-tg" {
   protocol = var.tg_protocol
   vpc_id   = var.vpc_id
   health_check {
-    healthy_threshold = var.lb_healthy_threshold
+    healthy_threshold   = var.lb_healthy_threshold
     unhealthy_threshold = var.lb_unhealthy_threshold
-    timeout = var.timeout
-    interval = var.interval
+    timeout             = var.timeout
+    interval            = var.interval
   }
 }
 

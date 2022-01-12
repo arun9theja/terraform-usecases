@@ -19,6 +19,8 @@ module "alb" {
   lb_unhealthy_threshold = 2
   timeout                = 3
   interval               = 30
+  listener_port          = 80
+  listener_protocol      = "HTTP"
   vpc_id                 = module.vpc.vpc_id
   public_subnet_id       = module.vpc.public_subnet_id
   instance_id            = module.ec2.instance_id

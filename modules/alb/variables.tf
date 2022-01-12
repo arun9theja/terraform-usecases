@@ -1,5 +1,5 @@
 variable "ec2_count" {
-  type    = number
+  type = number
 }
 
 variable "vpc_id" {
@@ -32,3 +32,5 @@ variable "lb_healthy_threshold" {}
 variable "lb_unhealthy_threshold" {}
 variable "timeout" {}
 variable "interval" {}
+variable "listener_port" {}
+variable "listener_protocol" {}
