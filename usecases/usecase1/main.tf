@@ -25,7 +25,6 @@ module "alb" {
   public_subnet_id       = module.vpc.public_subnet_id
   instance_id            = module.ec2.instance_id
   ec2_sg_id              = module.ec2.ec2_sg_id
-  azs                    = var.azs
 }
 
 module "vpc" {

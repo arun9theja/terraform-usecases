@@ -10,10 +10,6 @@ variable "public_subnet_id" {
   type = list(string)
 }
 
-variable "azs" {
-  type = list(string)
-}
-
 variable "instance_id" {
   type = list(string)
 }
