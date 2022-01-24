@@ -21,13 +21,14 @@
 
 # AWS
  - Should have an active AWS account. Create a free tier if you don't have one.
- - Create an IAM user for the terraform and download the access key and secret access key to your local.
- - make sure you generate a key pair in the AWS console and keep it handy at your local for ssh connections to EC2 instances,
+ - Create an IAM user for the terraform with Programmatic access (refer the link https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html to create an IAM user) and download that user's Access key and Secret access key to your local.
+ - Make sure you generate a key pair in the AWS console (.pem format for ssh and .ppk format for windows putty) and keep it handy at your local machine (where you run your terraform scripts) for ssh or putty connections to EC2 instances.
+ - In the file ec2.tf under modules/ec2/ folder you can find in the code under provisioner/connection, the path specified for terraform.pem file but the file is not included here in the github repo since you need to provide the key file from your AWS account. So please copy your key file that you generated in the previous step to the path modules/ec2/ for your local machine to connect with the terraform created EC2 instances.
  
 # Steps
 
-- Step 1:  Install AWS CLI on the local machine and configure the AWS account using aws config command.
-- Step 2:  If you don't want to install AWS CLI, you should hardcode the values of access and secret access keys in providers.tf file.
+- Step 1:  Install AWS CLI on your local machine where you are going to run terraform (refer the link https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and configure your AWS account by running "aws config" command in your terminal. Verify if your aws cli is installed correctly and able to connect to your account with some basic aws cli command.
+- Step 2:  If you don't want to install AWS CLI, you should hardcode the values of your AWS Access and Secret Access keys inside the providers.tf file.(But that is not a recommended approach)
 - Step 3:  Clone this repository to your local using git clone <url> command.
 
 # commands
