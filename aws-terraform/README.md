@@ -1,4 +1,4 @@
-# Terraform Automation Usecases :
+# AWS Terraform Automation Usecases :
 👇
 ## Usecase1 :
 ### Web Application Deployment Automation in AWS
