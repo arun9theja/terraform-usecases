@@ -8,5 +8,5 @@ terraform {
 }
 
 provider "github" {
-  token = ""      # Provide here your Git Hub Personal Access Token generated from Github --> Settings --> Developer Settings"
+  token = "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"      # Provide here your Git Hub Personal Access Token generated from Github --> Settings --> Developer Settings"
 }

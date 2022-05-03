@@ -1,6 +1,6 @@
 variable "customer_prefix" {
   type    = string
-  default = "murlee"
+  default = "murlee-cnl"
 }
 
 variable "name" {
@@ -8,19 +8,29 @@ variable "name" {
   default = "sample"
 }
 
-variable "vpc_id" {
+variable "VPC_NAME" {
   type    = string
-  default = ""
+  default = "nginx"
 }
 
 variable "base_region" {
   type    = string
-  default = "ap-southeast-2"
+  default = "us-east-1"
 }
 
-variable "environment" {
+variable "az1" {
+  description = "Availability zone 1"
+  default     = "us-east-1a"
+}
+
+variable "az2" {
+  description = "Availability zone 2"
+  default     = "us-east-1b"
+}
+
+variable "ENV" {
   type    = string
-  default = "sandpit"
+  default = "test"
 }
 
 variable "container_image" {

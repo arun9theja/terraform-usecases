@@ -8,6 +8,7 @@ variable "azs" {
 
 variable "public_subnet_id" {
   type = list(string)
+  default = []
 }
 
 variable "access_ip" {

@@ -1,25 +1,13 @@
 # ECS cluster
 resource "aws_ecs_cluster" "sample_cluster" {
-  name = "murali_test_cluster"
-}
-
-# Subnet resource
-data "aws_subnets" "public" {
-  filter {
-    name   = "vpc-id"
-    values = [var.vpc_id]
-  }
-
-  tags = {
-    Tier = "Public"
-  }
+  name = "cnl_demo_cluster"
 }
 
 # Security groups
 resource "aws_security_group" "test_ecs_sg" {
-  name        = "${var.customer_prefix}-${var.environment}-ecs-sg"
+  name        = "${var.customer_prefix}-${var.ENV}-ecs-sg"
   description = "To allow traffic from/to loadbalancer"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main-vpc.id
 
   ingress {
     description     = "HTTP from ALB"
@@ -39,9 +27,9 @@ resource "aws_security_group" "test_ecs_sg" {
 }
 
 resource "aws_security_group" "test_alb_sg" {
-  name        = "${var.customer_prefix}-${var.environment}-alb-sg"
+  name        = "${var.customer_prefix}-${var.ENV}-alb-sg"
   description = "Allow http inbound traffic"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main-vpc.id
 
   ingress {
     from_port   = 80
@@ -54,9 +42,9 @@ resource "aws_security_group" "test_alb_sg" {
 
 resource "aws_security_group_rule" "alb_ecs_egress" {
   type                     = "egress"
-  from_port                = 80
-  to_port                  = 80
-  protocol                 = "tcp"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
   security_group_id        = aws_security_group.test_alb_sg.id
   source_security_group_id = aws_security_group.test_ecs_sg.id
 }
@@ -71,7 +59,7 @@ resource "aws_ecs_task_definition" "test_td" {
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([{
-    name      = "${var.customer_prefix}-${var.environment}-nginx-container"
+    name      = "${var.customer_prefix}-${var.ENV}-nginx-container"
     image     = "${var.container_image}:latest"
     essential = true
     # environment = var.container_environment
@@ -164,7 +152,7 @@ resource "aws_iam_role_policy_attachment" "ecs-task-execution-role-policy-attach
 
 # ECS Service
 resource "aws_ecs_service" "test_service" {
-  name                               = "${var.name}-service-${var.environment}"
+  name                               = "${var.name}-service-${var.ENV}"
   cluster                            = aws_ecs_cluster.sample_cluster.id
   task_definition                    = aws_ecs_task_definition.test_td.arn
   desired_count                      = 2
@@ -175,12 +163,12 @@ resource "aws_ecs_service" "test_service" {
 
   load_balancer {
     target_group_arn = aws_alb_target_group.test_lb_tg.arn
-    container_name   = "${var.customer_prefix}-${var.environment}-nginx-container"
+    container_name   = "${var.customer_prefix}-${var.ENV}-nginx-container"
     container_port   = 80
   }
 
   network_configuration {
-    subnets          = data.aws_subnets.public.ids
+    subnets          = ["${aws_subnet.public-subnet-1.id}", "${aws_subnet.public-subnet-2.id}"]
     security_groups  = [aws_security_group.test_ecs_sg.id]
     assign_public_ip = var.assign_public_ip
   }
@@ -188,20 +176,20 @@ resource "aws_ecs_service" "test_service" {
 
 # Application Loadbalancer
 resource "aws_lb" "test_alb" {
-  name               = "${var.customer_prefix}-${var.environment}-nginx-lb"
+  name               = "${var.customer_prefix}-${var.ENV}-nginx-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.test_alb_sg.id]
-  subnets            = data.aws_subnets.public.ids
+  subnets            = ["${aws_subnet.public-subnet-1.id}", "${aws_subnet.public-subnet-2.id}"]
 
   enable_deletion_protection = false
 }
 
 resource "aws_alb_target_group" "test_lb_tg" {
-  name        = "${var.customer_prefix}-${var.environment}-nginx-tg"
+  name        = "${var.customer_prefix}-${var.ENV}-nginx-tg"
   port        = 80
   protocol    = "HTTP"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main-vpc.id
   target_type = "ip"
 
   health_check {
