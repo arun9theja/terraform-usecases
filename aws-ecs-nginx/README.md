@@ -1,5 +1,18 @@
 # Hi, I'm Murali! 👋
 
+# About this code
+
+Terraform code which Setup a ECS cluster with desired Launch type as FARGATE and create containers that host nginx server for web application deployment. Using this code, we should be able to see the default nginx page in the browser.
+
+All the resources that needed for the ECS Fargate cluster to work properly will be created including VPC and subnets.
+
+These types of resources are supported:
+
+- [VPC](https://github.com/cloudnloud/terraform-usecases/blob/master/aws-ecs-nginx/vpc.tf)
+- [ECS-Cluster](https://github.com/cloudnloud/terraform-usecases/blob/master/aws-ecs-nginx/ecs-cluster.tf)
+
+
+
 # Pre-requisites
 
 Follow the below steps to install Terraform in your preferred OS
